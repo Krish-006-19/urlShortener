@@ -9,6 +9,7 @@ router.post('/',async (req, res)=>{
     } catch (error) {
         throw error
     }
+    return res.render('home')
 })
 
 module.exports = router

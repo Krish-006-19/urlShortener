@@ -4,15 +4,31 @@ const Url = require('../models/url')
 const router = express.Router()
 
 router.post('/',async(req, res)=>{
-    const { body } = req
+    const body  = req.body
     if(!body.url) return res.status(400).json({error: 'url is required!'})
-const shortId = nanoid(8);
+const shortId = nanoid(8)
 await Url.create({
     shortId: shortId,
     redirectUrl: body.url,
     visitHistory: []
 })
-return res.json({id: shortId})
+return res.render('home',{id: shortId})
+})
+
+router.get('/test', async (req, res) => {
+    const allUrls = await Url.find({})
+    return res.end(`
+        <html>
+            <head></head>
+            <body>
+                <ol>
+                    ${
+                        allUrls?.map(url=>`<li>${url.shortId} - ${url.redirectUrl} - ${url.visitHistory}</li>`)
+                    }
+                </ol>
+            </body>
+        </html>
+        `).join('')
 })
 
 router.get('/:shortId',async (req, res)=>{

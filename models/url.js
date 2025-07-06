@@ -17,6 +17,4 @@ const urlSchema = new mongoose.Schema({
     ]
 },{timestamps:true})
 
-const Url = mongoose.model('Url',urlSchema)
-
-module.exports = Url
+module.exports = mongoose.model('Url',urlSchema)
